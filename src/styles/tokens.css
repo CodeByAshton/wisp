@@ -1,0 +1,120 @@
+/* ──────────────────────────────────────────────────────────────────────
+   WISP Design Tokens — Apple HIG
+   ────────────────────────────────────────────────────────────────────── */
+
+:root {
+  /* ── Typography ─────────────────────────────────────────── */
+  --font-display: -apple-system, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+  --font-text:    -apple-system, "SF Pro Text",    "Helvetica Neue", Arial, sans-serif;
+  --font-mono:    "SF Mono", "Fira Code", "JetBrains Mono", "Cascadia Code", Menlo, monospace;
+
+  --text-xs:   11px;
+  --text-sm:   12px;
+  --text-base: 13px;
+  --text-md:   14px;
+  --text-lg:   16px;
+  --text-xl:   18px;
+  --text-2xl:  22px;
+  --text-3xl:  28px;
+
+  /* ── Accent ─────────────────────────────────────────────── */
+  --color-accent:        #007AFF;
+  --color-accent-hover:  #0071F0;
+  --color-accent-subtle: rgba(0, 122, 255, 0.12);
+  --color-destructive:   #FF3B30;
+  --color-success:       #34C759;
+  --color-warning:       #FF9F0A;
+
+  /* ── Labels ─────────────────────────────────────────────── */
+  --color-label:            rgba(0, 0, 0, 0.85);
+  --color-label-secondary:  rgba(0, 0, 0, 0.50);
+  --color-label-tertiary:   rgba(0, 0, 0, 0.30);
+  --color-label-quaternary: rgba(0, 0, 0, 0.16);
+
+  /* ── Fills ──────────────────────────────────────────────── */
+  --color-fill:           rgba(120, 120, 128, 0.20);
+  --color-fill-secondary: rgba(120, 120, 128, 0.16);
+  --color-fill-tertiary:  rgba(120, 120, 128, 0.12);
+
+  /* ── Backgrounds ────────────────────────────────────────── */
+  --color-bg-primary:  #FFFFFF;
+  --color-bg-secondary:#F2F2F7;
+  --color-bg-grouped:  #F2F2F7;
+
+  /* ── Surfaces ───────────────────────────────────────────── */
+  --color-surface:        rgba(255, 255, 255, 0.72);
+  --color-surface-raised: #FFFFFF;
+
+  /* ── Separators ─────────────────────────────────────────── */
+  --color-separator:        rgba(60, 60, 67, 0.12);
+  --color-separator-opaque: #C6C6C8;
+
+  /* ── Sidebar ────────────────────────────────────────────── */
+  --color-sidebar-bg:          rgba(246, 246, 248, 0.92);
+  --color-sidebar-item-hover:  rgba(0, 0, 0, 0.04);
+  --color-sidebar-item-active: rgba(0, 122, 255, 0.12);
+
+  /* ── Radii ──────────────────────────────────────────────── */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+
+  /* ── Shadows ────────────────────────────────────────────── */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.06);
+
+  /* ── Motion ─────────────────────────────────────────────── */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth: cubic-bezier(0.40, 0, 0.20, 1);
+  --ease-out:    cubic-bezier(0, 0, 0.20, 1);
+
+  --duration-fast:   120ms;
+  --duration-normal: 200ms;
+  --duration-slow:   300ms;
+
+  /* ── Blur ───────────────────────────────────────────────── */
+  --blur-panel: blur(20px) saturate(180%);
+
+  /* ── Spacing ────────────────────────────────────────────── */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+}
+
+/* ── Dark Mode ──────────────────────────────────────────────────────── */
+[data-theme="dark"] {
+  --color-label:            rgba(255, 255, 255, 0.85);
+  --color-label-secondary:  rgba(255, 255, 255, 0.55);
+  --color-label-tertiary:   rgba(255, 255, 255, 0.30);
+  --color-label-quaternary: rgba(255, 255, 255, 0.12);
+
+  --color-fill:           rgba(120, 120, 128, 0.36);
+  --color-fill-secondary: rgba(120, 120, 128, 0.28);
+  --color-fill-tertiary:  rgba(120, 120, 128, 0.18);
+
+  --color-bg-primary:   #000000;
+  --color-bg-secondary: #1C1C1E;
+  --color-bg-grouped:   #1C1C1E;
+
+  --color-surface:        rgba(28, 28, 30, 0.85);
+  --color-surface-raised: #2C2C2E;
+
+  --color-separator:        rgba(255, 255, 255, 0.10);
+  --color-separator-opaque: #3A3A3C;
+
+  --color-sidebar-bg:          rgba(22, 22, 24, 0.92);
+  --color-sidebar-item-hover:  rgba(255, 255, 255, 0.04);
+  --color-sidebar-item-active: rgba(0, 122, 255, 0.20);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.20), 0 1px 3px rgba(0, 0, 0, 0.16);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.30);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.50);
+}

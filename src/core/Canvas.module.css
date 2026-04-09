@@ -1,0 +1,144 @@
+.canvasWrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+  padding: 40px 20px;
+  min-height: 0;
+  position: relative;
+}
+
+.bgWhite  { background: var(--color-bg-primary); }
+.bgSubtle { background: var(--color-bg-secondary); }
+.bgDark   { background: #1C1C1E; }
+
+/* ── Viewport frame ─────────────────────────────────────────────────── */
+.viewportFrame {
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: width 300ms var(--ease-spring);
+}
+
+/* Portal root — story overlays (Modal, Drawer…) render here via createPortal.
+   Sits inside .canvasWrapper which has position:relative.
+   THE KEY: transform:translateZ(0) creates a new CSS containing block, so any
+   child with position:fixed is positioned relative to THIS div rather than the
+   browser viewport. Without this, position:fixed covers the entire screen.
+   pointer-events:none lets clicks pass through to the component card below;
+   children rendered into this div (e.g. the modal overlay) override this with
+   their own default pointer-events:auto and still receive all events. */
+.portalRoot {
+  position: absolute;
+  inset: 0;
+  transform: translateZ(0);
+  z-index: 50;
+  pointer-events: none;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+/* ── Component card ─────────────────────────────────────────────────── */
+.componentCard {
+  background: var(--color-surface-raised);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 40px;
+  opacity: 0;
+  transition: opacity 180ms var(--ease-out);
+  width: 100%;
+  min-width: 0;
+}
+
+.componentCard.visible {
+  opacity: 1;
+}
+
+/* ── Empty state ────────────────────────────────────────────────────── */
+.emptyCanvas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 60px 40px;
+  text-align: center;
+}
+
+.emptyDot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-fill-secondary);
+  margin-bottom: 4px;
+}
+
+.emptyTitle {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--color-label);
+}
+
+.emptySubtitle {
+  font-size: var(--text-sm);
+  color: var(--color-label-tertiary);
+  max-width: 280px;
+}
+
+.noComponent {
+  padding: 20px;
+  color: var(--color-label-tertiary);
+  font-size: var(--text-sm);
+  text-align: center;
+}
+
+/* ── Fullscreen ─────────────────────────────────────────────────────── */
+.fullscreenBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 150ms var(--ease-out);
+}
+
+.fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 501;
+  border-radius: 0;
+  padding: 60px;
+}
+
+.exitFullscreen {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 502;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(0, 0, 0, 0.6);
+  color: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-family: var(--font-text);
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: background var(--duration-fast);
+}
+
+.exitFullscreen:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}

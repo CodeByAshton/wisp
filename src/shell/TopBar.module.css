@@ -1,0 +1,93 @@
+.topBar {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  height: 44px;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--color-separator);
+  flex-shrink: 0;
+  z-index: 100;
+}
+
+/* ── Wordmark ───────────────────────────────────────────────────────── */
+.wordmark {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-shrink: 0;
+  margin-right: 20px;
+}
+
+.accentDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: 0 0 6px var(--color-accent), 0 0 12px rgba(0, 122, 255, 0.4);
+  flex-shrink: 0;
+}
+
+.wordmarkText {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--color-label);
+  letter-spacing: -0.02em;
+}
+
+/* ── Breadcrumb ─────────────────────────────────────────────────────── */
+.breadcrumb {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.breadcrumbText {
+  font-size: var(--text-sm);
+  color: var(--color-label-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 400px;
+}
+
+/* ── Controls ───────────────────────────────────────────────────────── */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  margin-left: 20px;
+}
+
+.separator {
+  width: 1px;
+  height: 16px;
+  background: var(--color-separator);
+}
+
+.iconBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-sm);
+  color: var(--color-label-secondary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-out),
+              color var(--duration-fast) var(--ease-out);
+}
+
+.iconBtn:hover {
+  background: var(--color-sidebar-item-hover);
+  color: var(--color-label);
+}
+
+.iconBtn:active {
+  background: var(--color-fill);
+}

@@ -1,0 +1,86 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: var(--font-text);
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 150ms var(--ease-out),
+    opacity 150ms var(--ease-out),
+    transform 100ms var(--ease-out),
+    box-shadow 150ms var(--ease-out);
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* ── Sizes ──────────────────────────────────────────────────────────── */
+.sm  { height: 28px; padding: 0 12px; font-size: 12px; }
+.md  { height: 36px; padding: 0 16px; font-size: 14px; }
+.lg  { height: 44px; padding: 0 22px; font-size: 15px; }
+
+/* ── Variants ───────────────────────────────────────────────────────── */
+.primary {
+  background: var(--color-accent);
+  color: #ffffff;
+}
+.primary:hover:not(:disabled) {
+  background: var(--color-accent-hover);
+  box-shadow: 0 2px 8px rgba(0, 122, 255, 0.35);
+}
+
+.secondary {
+  background: var(--color-fill-secondary);
+  color: var(--color-label);
+}
+.secondary:hover:not(:disabled) {
+  background: var(--color-fill);
+}
+
+.ghost {
+  background: transparent;
+  color: var(--color-accent);
+}
+.ghost:hover:not(:disabled) {
+  background: var(--color-accent-subtle);
+}
+
+.destructive {
+  background: var(--color-destructive);
+  color: #ffffff;
+}
+.destructive:hover:not(:disabled) {
+  background: #e0362d;
+  box-shadow: 0 2px 8px rgba(255, 59, 48, 0.35);
+}
+
+/* ── States ─────────────────────────────────────────────────────────── */
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.fullWidth { width: 100%; }
+
+/* ── Spinner ────────────────────────────────────────────────────────── */
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 600ms linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

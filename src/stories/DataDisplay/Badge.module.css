@@ -1,0 +1,52 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 100px;
+  font-family: var(--font-text);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+/* ── Sizes ──────────────────────────────────────────────────────────── */
+.sm { font-size: 11px; padding: 2px 7px; }
+.md { font-size: 12px; padding: 3px 9px; }
+
+/* ── Variants ───────────────────────────────────────────────────────── */
+.default {
+  background: var(--color-fill-secondary);
+  color: var(--color-label-secondary);
+}
+
+.info {
+  background: rgba(0, 122, 255, 0.12);
+  color: var(--color-accent);
+}
+
+.success {
+  background: rgba(52, 199, 89, 0.12);
+  color: var(--color-success);
+}
+
+.warning {
+  background: rgba(255, 159, 10, 0.12);
+  color: var(--color-warning);
+}
+
+.danger {
+  background: rgba(255, 59, 48, 0.12);
+  color: var(--color-destructive);
+}
+
+.purple {
+  background: rgba(191, 90, 242, 0.12);
+  color: #BF5AF2;
+}
+
+/* ── Dot ────────────────────────────────────────────────────────────── */
+.dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}

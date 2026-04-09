@@ -1,0 +1,46 @@
+.avatar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.circle  { border-radius: 50%; }
+.rounded { border-radius: var(--radius-md); }
+
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: #ffffff;
+  font-weight: 600;
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+  user-select: none;
+}
+
+/* ── Status dot ─────────────────────────────────────────────────────── */
+.statusDot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 28%;
+  height: 28%;
+  border-radius: 50%;
+  border: 2px solid var(--color-bg-primary);
+}
+
+.status-online  { background: var(--color-success); }
+.status-offline { background: var(--color-label-quaternary); }
+.status-away    { background: var(--color-warning); }
+.status-busy    { background: var(--color-destructive); }

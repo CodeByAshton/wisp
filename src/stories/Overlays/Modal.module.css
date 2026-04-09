@@ -1,0 +1,96 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 24px;
+  animation: overlayIn 200ms var(--ease-out);
+  backdrop-filter: blur(4px);
+}
+
+.panel {
+  background: var(--color-surface-raised);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 48px);
+  width: 100%;
+  animation: panelIn 250ms var(--ease-spring);
+  overflow: hidden;
+}
+
+/* ── Sizes ──────────────────────────────────────────────────────────── */
+.sm { max-width: 400px; }
+.md { max-width: 520px; }
+.lg { max-width: 680px; }
+.xl { max-width: 860px; }
+
+/* ── Header ─────────────────────────────────────────────────────────── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px 0;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 600;
+  color: var(--color-label);
+  letter-spacing: -0.01em;
+}
+
+.closeBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--color-fill-secondary);
+  color: var(--color-label-secondary);
+  border: none;
+  cursor: pointer;
+  transition: background 150ms, color 150ms;
+  flex-shrink: 0;
+}
+
+.closeBtn:hover {
+  background: var(--color-fill);
+  color: var(--color-label);
+}
+
+/* ── Body ───────────────────────────────────────────────────────────── */
+.body {
+  padding: 20px;
+  flex: 1;
+  overflow-y: auto;
+  color: var(--color-label-secondary);
+  font-size: var(--text-base);
+  line-height: 1.6;
+}
+
+/* ── Footer ─────────────────────────────────────────────────────────── */
+.footer {
+  padding: 0 20px 20px;
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
+
+/* ── Animations ─────────────────────────────────────────────────────── */
+@keyframes overlayIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes panelIn {
+  from { opacity: 0; transform: scale(0.95) translateY(8px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
