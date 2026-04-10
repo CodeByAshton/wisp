@@ -16,7 +16,7 @@
 
 <br />
 
-![wisp screenshot](https://placehold.co/900x520/0a0a0f/007AFF?text=wisp+preview&font=monospace)
+![wisp screenshot](docs/preview.jpg)
 
 <br />
 
