@@ -5,7 +5,7 @@
 # ◉ wisp
 
 **The component explorer built by the design team at [literal](https://x.com/literalhq).**  
-*A fast, local tool for previewing, inspecting, and documenting React components.*
+*Built for teams using AI to write frontend code.*
 
 <br />
 
@@ -24,19 +24,19 @@
 
 ---
 
-## Built at literal
+## Why we built this
 
-wisp was built by the design team at **[literal](https://x.com/literalhq)** — document infrastructure for identity, consent, and long-term document governance. As our component library grew, we needed a tool that could keep pace with daily product work: instant startup, no configuration, and a UI that meets the same standard as the product itself.
+AI writes a lot of our frontend code. That's fast — until you need to actually see what was generated, inspect its layout, tweak a prop, or check how it behaves at different sizes. The feedback loop between AI output and visual confirmation matters.
 
-The compliance category is universally ugly. literal is not. wisp is part of how we keep it that way.
+The tools that existed were too slow. A component explorer that takes 30 seconds to start doesn't fit inside an AI-assisted workflow. We needed something that opened instantly, showed the component exactly as it renders, and got out of the way.
 
-We're open-sourcing it because the problem is common and the solutions available were too slow.
+So the design team at **[literal](https://x.com/literalhq)** built wisp for ourselves. We're open-sourcing it because the workflow is universal — if you're using AI to build UI, you have the same problem.
 
 ---
 
 ## What it does
 
-wisp is a local component explorer for React + TypeScript. Point it at a folder of `*.stories.tsx` files and it runs — no build config, no plugin ecosystem to manage. Files hot-reload the moment they're saved.
+wisp is a local component explorer for React + TypeScript. Point it at a folder of `*.stories.tsx` files and it runs — no build config, no plugin ecosystem. Files hot-reload the moment they're saved, which means the loop between AI generating a component and you seeing it is as short as it can be.
 
 ```bash
 npx wisp --dir ../my-app/src/components
