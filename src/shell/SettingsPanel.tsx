@@ -399,7 +399,7 @@ export function SettingsPanel({
               </div>
             </div>
             <a
-              href="https://github.com/your-org/wisp"
+              href="https://github.com/CodeByAshton/wisp"
               target="_blank"
               rel="noopener noreferrer"
               className={styles.githubLink}

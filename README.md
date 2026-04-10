@@ -4,7 +4,7 @@
 
 # ◉ wisp
 
-**The component explorer built by the design team at [Literal](https://github.com/CodeByAshton).**  
+**The component explorer built by the design team at [Literal](https://x.com/literalhq).**  
 *A blazing-fast, local Storybook alternative that starts in under a second.*
 
 <br />
@@ -175,4 +175,4 @@ src/components/
 
 ## License
 
-MIT © [Literal](https://github.com/CodeByAshton)
+MIT © [Literal](https://github.com/CodeByAshton) — [@literalhq](https://x.com/literalhq)
