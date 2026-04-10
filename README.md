@@ -154,6 +154,30 @@ src/components/
 
 ---
 
+## Claude Code skill
+
+This repo ships a Claude Code skill that turns any component request into a
+production-ready wisp story in one shot.
+
+```
+/wisp build a status badge with variants: success, warning, error
+```
+
+The skill enforces CDD methodology — story first, one component per file, TypeScript strict,
+WCAG AA touch targets, and `useReducedMotion()` on every animated component. Three reference
+files live in `.claude/references/` and are loaded on demand:
+
+| File | When Claude reads it |
+|---|---|
+| `story-template.md` | Canonical story shape, arg types, import paths |
+| `animation.md` | react-spring patterns, gesture patterns, reduced-motion guard |
+| `component-examples.md` | Worked examples: Badge, BottomSheet, PageTransition |
+
+To use the skill, open Claude Code in your project and type `/wisp` followed by a description
+or attach a screenshot.
+
+---
+
 ## License
 
 MIT © [literal](https://x.com/literalhq)
