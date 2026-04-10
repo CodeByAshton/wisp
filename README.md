@@ -4,8 +4,8 @@
 
 # ◉ wisp
 
-**The component explorer built by the design team at [Literal](https://x.com/literalhq).**  
-*A blazing-fast, local Storybook alternative that starts in under a second.*
+**The component explorer built by the design team at [literal](https://x.com/literalhq).**  
+*A fast, local tool for previewing, inspecting, and documenting React components.*
 
 <br />
 
@@ -24,48 +24,38 @@
 
 ---
 
-## Built at Literal
+## Built at literal
 
-wisp was created by the design team at **Literal** — a secure document management platform — to bridge the gap between design and engineering. As our component library grew, we needed a tool that could keep up with the pace of product development: instant feedback, no configuration overhead, and a UI that felt as polished as the product itself.
+wisp was built by the design team at **[literal](https://x.com/literalhq)** — document infrastructure for identity, consent, and long-term document governance. As our component library grew, we needed a tool that could keep pace with daily product work: instant startup, no configuration, and a UI that meets the same standard as the product itself.
 
-We open-sourced it because we think every design team deserves tooling this fast.
+The compliance category is universally ugly. literal is not. wisp is part of how we keep it that way.
+
+We're open-sourcing it because the problem is common and the solutions available were too slow.
 
 ---
 
-## What is wisp?
+## What it does
 
-**wisp** is a local-first component explorer for React + TypeScript. It reads your existing `*.stories.tsx` files with **zero changes** and hot-reloads the moment a file is saved. Point it at any folder on your machine and you're running.
+wisp is a local component explorer for React + TypeScript. Point it at a folder of `*.stories.tsx` files and it runs — no build config, no plugin ecosystem to manage. Files hot-reload the moment they're saved.
 
 ```bash
 npx wisp --dir ../my-app/src/components
 ```
 
----
-
-## Why wisp instead of Storybook?
-
-| | wisp | Storybook |
-|---|---|---|
-| Cold start | **< 500ms** | 10–30s |
-| Config needed | **None** | `main.ts`, addons, builders |
-| Watch any directory | **Yes** | Tied to its own build |
-| Bundle size | **~200KB** | 2MB+ |
-| Drop-in CSF3 support | **Yes** | Yes |
-
-wisp is intentionally minimal. It's the tool you open 40 times a day, so it has to feel instant.
+Inspired by Storybook's CSF3 story format — existing story files work without changes.
 
 ---
 
 ## Features
 
-- **Component explorer** — hierarchical sidebar derived from your folder structure (`Inputs/Button.tsx` → `Inputs › Button`)
-- **Live controls** — auto-generated from `argTypes` with text, boolean, select, number, range, and color inputs
-- **Resizable frame** — drag to resize the canvas horizontally and vertically, with viewport presets
-- **Element inspector** — click any element to inspect its box model, spacing, borders, and typography
-- **Code view** — JSX usage snippet with syntax highlighting and copy-to-clipboard
-- **Docs tab** — editable markdown docs per component
-- **Hot reload** — chokidar watches the directory; new `.stories.tsx` files appear instantly
-- **Fullscreen preview** — press `F` to expand any component to full viewport
+- **Component preview** — hierarchical sidebar built from your folder structure
+- **Live controls** — auto-generated from `argTypes`: text, boolean, select, number, range, color
+- **Resizable canvas** — drag the frame edges to test responsive behavior; viewport presets for mobile, tablet, and desktop
+- **Element inspector** — click any element to read its box model, spacing, borders, and typography directly from the DOM
+- **Code view** — JSX usage snippet with syntax highlighting and one-click copy
+- **Docs** — editable markdown documentation per component, rendered inline
+- **Hot reload** — new `.stories.tsx` files appear the moment they're saved
+- **Fullscreen** — press `F` to expand any component to full viewport
 
 ---
 
@@ -84,7 +74,7 @@ Opens at `http://localhost:5174` with the built-in demo stories.
 
 ## Pointing at your own project
 
-### Option 1 — Edit `wisp.config.ts`
+**Edit `wisp.config.ts`:**
 
 ```ts
 import { defineConfig } from './src/config'
@@ -95,22 +85,17 @@ export default defineConfig({
 })
 ```
 
-### Option 2 — CLI flag
+**Or use the CLI:**
 
 ```bash
-npx wisp --dir ../my-app/src/components
-npx wisp --dir /Users/you/projects/myapp/src/components --port 3000
+npx wisp --dir ../my-app/src/components --port 3000
 ```
 
-### Option 3 — In-app settings
-
-Click the **⚙** gear in the top-right corner, type a path in the **Component Directory** field, and hit **Apply**. wisp rewrites `wisp.config.ts` and reloads instantly.
+**Or use the settings panel** — click the gear icon, enter a path, hit Apply. wisp rewrites the config and reloads.
 
 ---
 
 ## Story format
-
-wisp uses **CSF3** — the same format as Storybook. Existing story files work with zero changes.
 
 ```tsx
 // Button.stories.tsx
@@ -118,26 +103,22 @@ import type { Meta, StoryObj } from 'wisp'
 import { Button } from './Button'
 
 const meta: Meta<typeof Button> = {
-  title: 'Button',
   component: Button,
   argTypes: {
-    variant: {
-      control: 'select',
-      options: ['primary', 'secondary', 'ghost', 'destructive'],
-    },
-    label:    { control: 'text' },
-    disabled: { control: 'boolean' },
+    variant: { control: 'select', options: ['primary', 'secondary', 'ghost'] },
+    label:   { control: 'text' },
+    disabled:{ control: 'boolean' },
   },
 }
 
 export default meta
 type Story = StoryObj<typeof Button>
 
-export const Primary:     Story = { args: { variant: 'primary',     label: 'Continue' } }
-export const Destructive: Story = { args: { variant: 'destructive', label: 'Delete'   } }
+export const Primary:   Story = { args: { variant: 'primary',   label: 'Continue' } }
+export const Secondary: Story = { args: { variant: 'secondary', label: 'Cancel'   } }
 ```
 
-Folder structure determines navigation — no nested `title` strings needed:
+Folder structure determines sidebar navigation — no `title` strings needed:
 
 ```
 src/components/
@@ -175,4 +156,4 @@ src/components/
 
 ## License
 
-MIT © [Literal](https://github.com/CodeByAshton) — [@literalhq](https://x.com/literalhq)
+MIT © [literal](https://x.com/literalhq)
