@@ -1,7 +1,7 @@
 {
   "name": "wisp",
   "version": "0.1.0",
-  "description": "A Storybook replacement built with Vite + React + TypeScript",
+  "description": "A fast, local component explorer for React + TypeScript — built by the design team at literal",
   "bin": {
     "wisp": "./bin/wisp.js"
   },
