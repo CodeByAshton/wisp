@@ -4,8 +4,8 @@
 
 # ◉ wisp
 
-**A blazing-fast, local component explorer for React + TypeScript.**  
-*The Storybook alternative that starts in under a second and gets out of your way.*
+**The component explorer built by the design team at [Literal](https://github.com/CodeByAshton).**  
+*A blazing-fast, local Storybook alternative that starts in under a second.*
 
 <br />
 
@@ -24,14 +24,19 @@
 
 ---
 
+## Built at Literal
+
+wisp was created by the design team at **Literal** — a secure document management platform — to bridge the gap between design and engineering. As our component library grew, we needed a tool that could keep up with the pace of product development: instant feedback, no configuration overhead, and a UI that felt as polished as the product itself.
+
+We open-sourced it because we think every design team deserves tooling this fast.
+
+---
+
 ## What is wisp?
 
-**wisp** is a local-first component explorer designed for **design handoff** — the moment when a designer or PM needs to understand, interact with, and inspect a React component before it goes to a developer.
-
-It reads your existing `*.stories.tsx` files with **zero changes**. Point it at any folder on your machine, and it hot-reloads the moment a story is saved in your editor.
+**wisp** is a local-first component explorer for React + TypeScript. It reads your existing `*.stories.tsx` files with **zero changes** and hot-reloads the moment a file is saved. Point it at any folder on your machine and you're running.
 
 ```bash
-# Use your existing stories instantly
 npx wisp --dir ../my-app/src/components
 ```
 
@@ -45,10 +50,9 @@ npx wisp --dir ../my-app/src/components
 | Config needed | **None** | `main.ts`, addons, builders |
 | Watch any directory | **Yes** | Tied to its own build |
 | Bundle size | **~200KB** | 2MB+ |
-| Zero-dependency stories | **Yes** | Yes |
 | Drop-in CSF3 support | **Yes** | Yes |
 
-wisp is intentionally smaller and faster. It's the tool you open 40 times a day, so it has to feel instant.
+wisp is intentionally minimal. It's the tool you open 40 times a day, so it has to feel instant.
 
 ---
 
@@ -56,12 +60,12 @@ wisp is intentionally smaller and faster. It's the tool you open 40 times a day,
 
 - **Component explorer** — hierarchical sidebar derived from your folder structure (`Inputs/Button.tsx` → `Inputs › Button`)
 - **Live controls** — auto-generated from `argTypes` with text, boolean, select, number, range, and color inputs
+- **Resizable frame** — drag to resize the canvas horizontally and vertically, with viewport presets
+- **Element inspector** — click any element to inspect its box model, spacing, borders, and typography
 - **Code view** — JSX usage snippet with syntax highlighting and copy-to-clipboard
-- **Docs tab** — renders `parameters.docs` markdown inline
-- **Hot reload** — chokidar watches the external directory; new `.stories.tsx` files appear instantly
-- **Dark mode** — full Apple HIG token set, light/dark/system
+- **Docs tab** — editable markdown docs per component
+- **Hot reload** — chokidar watches the directory; new `.stories.tsx` files appear instantly
 - **Fullscreen preview** — press `F` to expand any component to full viewport
-- **Configurable** — `wisp.config.ts`, in-app settings panel, or CLI flags
 
 ---
 
@@ -83,7 +87,6 @@ Opens at `http://localhost:5174` with the built-in demo stories.
 ### Option 1 — Edit `wisp.config.ts`
 
 ```ts
-// wisp.config.ts
 import { defineConfig } from './src/config'
 
 export default defineConfig({
@@ -96,12 +99,12 @@ export default defineConfig({
 
 ```bash
 npx wisp --dir ../my-app/src/components
-npx wisp --dir /Users/ashton/projects/myapp/src/components --port 3000
+npx wisp --dir /Users/you/projects/myapp/src/components --port 3000
 ```
 
 ### Option 3 — In-app settings
 
-Click the **⚙** gear in the top-right corner, type a path in the **Component Directory** field, hit **Apply**. wisp rewrites `wisp.config.ts` and reloads instantly.
+Click the **⚙** gear in the top-right corner, type a path in the **Component Directory** field, and hit **Apply**. wisp rewrites `wisp.config.ts` and reloads instantly.
 
 ---
 
@@ -134,7 +137,7 @@ export const Primary:     Story = { args: { variant: 'primary',     label: 'Cont
 export const Destructive: Story = { args: { variant: 'destructive', label: 'Delete'   } }
 ```
 
-The folder structure determines navigation — no need for nested `title` strings:
+Folder structure determines navigation — no nested `title` strings needed:
 
 ```
 src/components/
@@ -155,81 +158,8 @@ src/components/
 |-----|--------|
 | `⌘K` | Focus search |
 | `F` | Toggle fullscreen |
-| `D` | Toggle dark mode |
 | `R` | Reset controls |
 | `← →` | Previous / next variant |
-
----
-
-## Project structure
-
-```
-wisp/
-├── bin/wisp.js              # CLI entry point
-├── wisp.config.ts           # User-facing config
-├── vite.config.ts
-└── src/
-    ├── core/
-    │   ├── wisp-plugin.ts   # Vite plugin: virtual module + file watcher + API
-    │   ├── Canvas.tsx        # Isolated story renderer
-    │   ├── ControlsPanel.tsx # Auto-generated arg controls
-    │   ├── CodeViewer.tsx    # JSX snippet + syntax highlight
-    │   └── DocsPanel.tsx     # Markdown docs renderer
-    ├── shell/
-    │   ├── Sidebar.tsx       # Hierarchical nav tree
-    │   ├── TopBar.tsx        # Wordmark + breadcrumb + controls
-    │   └── SettingsPanel.tsx # Directory config + appearance
-    ├── stories/              # Built-in demo stories
-    │   ├── Inputs/           Button, InputField
-    │   ├── DataDisplay/      Badge, Avatar
-    │   ├── Layout/           Card
-    │   └── Overlays/         Modal
-    └── styles/
-        ├── tokens.css        # Full Apple HIG token set
-        └── globals.css
-```
-
----
-
-## Configuration reference
-
-```ts
-// wisp.config.ts
-import { defineConfig } from './src/config'
-
-export default defineConfig({
-  // Path to your component stories (absolute or relative)
-  storiesDir: '../my-app/src/components',
-
-  // Glob pattern within that dir
-  storiesGlob: '**/*.stories.tsx',
-
-  // Extra dirs to watch (shared types, utils…)
-  watchDirs: ['../my-app/src/types'],
-
-  // tsconfig-style path aliases
-  aliases: {
-    '@': '../my-app/src',
-    '@components': '../my-app/src/components',
-  },
-
-  // Dev server port (default: 5174)
-  port: 5174,
-})
-```
-
----
-
-## CLI reference
-
-```
-wisp [options]
-
-  -d, --dir <path>    Path to stories directory
-  -g, --glob <glob>   Glob pattern (default: **/*.stories.tsx)
-  -p, --port <port>   Dev server port (default: 5174)
-  -h, --help          Show help
-```
 
 ---
 
@@ -239,10 +169,10 @@ wisp [options]
 - **[React 18](https://react.dev)** — UI
 - **[TypeScript 5](https://www.typescriptlang.org)** — end-to-end types
 - **[Lucide React](https://lucide.dev)** — icons
-- **CSS Modules** — scoped styles, Apple HIG tokens
+- **CSS Modules** — scoped styles, Apple HIG design tokens
 
 ---
 
 ## License
 
-MIT © [CodeByAshton](https://github.com/CodeByAshton)
+MIT © [Literal](https://github.com/CodeByAshton)

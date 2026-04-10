@@ -9,7 +9,7 @@ interface Segment<T extends string> {
 
 interface SegmentedControlProps<T extends string> {
   segments: Segment<T>[]
-  value: T
+  value: T | undefined
   onChange: (value: T) => void
   size?: 'sm' | 'md'
 }
@@ -29,11 +29,14 @@ export function SegmentedControl<T extends string>({
     if (!container) return
     const buttons = container.querySelectorAll<HTMLButtonElement>('button')
     const activeBtn = buttons[activeIndex]
-    if (!activeBtn) return
-
+    if (!activeBtn) {
+      setThumbStyle({ width: 0, opacity: 0 })
+      return
+    }
     setThumbStyle({
       width: activeBtn.offsetWidth,
       transform: `translateX(${activeBtn.offsetLeft}px)`,
+      opacity: 1,
     })
   }, [activeIndex, segments])
 

@@ -5,7 +5,6 @@ import { SegmentedControl } from '../components/ui/SegmentedControl'
 import { StatusBadge } from '../components/ui/StatusBadge'
 import type { WispSettings, CanvasBackground } from '../hooks/useSettings'
 import type { WatchStatus } from '../hooks/useDirectoryWatch'
-import type { Theme } from '../hooks/useTheme'
 import styles from './SettingsPanel.module.css'
 
 interface SettingsPanelProps {
@@ -109,18 +108,15 @@ export function SettingsPanel({
     }
   }
 
-  const themeSegments = [
-    { value: 'light' as Theme, label: 'Light' },
-    { value: 'dark' as Theme, label: 'Dark' },
-    { value: 'system' as Theme, label: 'System' },
-  ]
-
   const bgSegments = [
-    { value: 'white' as CanvasBackground, label: 'White' },
     { value: 'subtle' as CanvasBackground, label: 'Subtle' },
     { value: 'checkered' as CanvasBackground, label: 'Checked' },
     { value: 'dark' as CanvasBackground, label: 'Dark' },
   ]
+
+  // Derived: is cardBackground a valid hex color?
+  const cardBgIsHex = /^#[0-9a-f]{3,8}$/i.test(settings.cardBackground)
+  const cardBgForPicker = cardBgIsHex ? settings.cardBackground : '#222222'
 
   return (
     <>
@@ -322,21 +318,47 @@ export function SettingsPanel({
             <h3 className={styles.sectionTitle}>Appearance</h3>
 
             <div className={styles.field}>
-              <label className={styles.fieldLabel}>Theme</label>
-              <SegmentedControl
-                segments={themeSegments}
-                value={settings.theme}
-                onChange={v => onSettingsChange({ theme: v })}
-              />
-            </div>
-
-            <div className={styles.field}>
               <label className={styles.fieldLabel}>Canvas background</label>
               <SegmentedControl
                 segments={bgSegments}
                 value={settings.canvasBackground}
                 onChange={v => onSettingsChange({ canvasBackground: v })}
               />
+            </div>
+
+            <div className={styles.field}>
+              <label className={styles.fieldLabel}>Frame background</label>
+              <div className={styles.colorPickerRow}>
+                <div className={styles.colorSwatchWrap}>
+                  <span
+                    className={styles.colorSwatch}
+                    style={{
+                      background: settings.cardBackground === 'transparent' ? 'transparent' : settings.cardBackground,
+                    }}
+                  />
+                  <input
+                    type="color"
+                    value={cardBgForPicker}
+                    onChange={e => onSettingsChange({ cardBackground: e.target.value })}
+                    className={styles.nativeColorInput}
+                    title="Pick frame color"
+                  />
+                </div>
+                <input
+                  type="text"
+                  value={settings.cardBackground}
+                  onChange={e => onSettingsChange({ cardBackground: e.target.value })}
+                  placeholder="#222222 or transparent"
+                  className={styles.hexInput}
+                  spellCheck={false}
+                />
+                <button
+                  className={`${styles.btn} ${styles.btnSmall} ${settings.cardBackground === 'transparent' ? styles.btnActive : ''}`}
+                  onClick={() => onSettingsChange({ cardBackground: 'transparent' })}
+                >
+                  None
+                </button>
+              </div>
             </div>
 
             <div className={styles.field}>

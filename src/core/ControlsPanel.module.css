@@ -12,17 +12,39 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 14px;
+  padding: 0 8px 0 10px;
   height: 40px;
   flex-shrink: 0;
+  gap: 4px;
 }
 
-.title {
-  font-size: var(--text-sm);
-  font-weight: 600;
+/* ── Tabs ────────────────────────────────────────────────────────────── */
+.tabs {
+  display: flex;
+  gap: 2px;
+}
+
+.tab {
+  padding: 4px 8px;
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--color-label-tertiary);
+  background: none;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: color var(--duration-fast), background var(--duration-fast);
+  white-space: nowrap;
+}
+
+.tab:hover {
   color: var(--color-label-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  background: var(--color-fill-tertiary);
+}
+
+.tabActive {
+  color: var(--color-label) !important;
+  background: var(--color-fill-secondary) !important;
 }
 
 .headerActions {
@@ -49,6 +71,12 @@
 .actionBtn:hover {
   background: var(--color-fill-secondary);
   color: var(--color-label);
+}
+
+.actionBtnActive {
+  background: var(--color-accent-muted) !important;
+  color: var(--color-accent) !important;
+  border: 1px solid var(--color-accent-subtle);
 }
 
 .separator {

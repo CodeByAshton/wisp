@@ -15,7 +15,7 @@
   background: var(--color-surface-raised);
   border-radius: calc(var(--radius-md) - 2px);
   box-shadow: var(--shadow-sm);
-  transition: transform 200ms var(--ease-spring), width 200ms var(--ease-spring);
+  transition: transform 200ms var(--ease-spring), width 200ms var(--ease-spring), opacity 150ms var(--ease-out);
   pointer-events: none;
   z-index: 0;
 }

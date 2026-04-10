@@ -1,18 +1,14 @@
-import { Monitor, Tablet, Smartphone, Sun, Moon, Settings, Maximize2 } from 'lucide-react'
+import { Monitor, Tablet, Smartphone, Settings, Maximize2 } from 'lucide-react'
 import { SegmentedControl } from '../components/ui/SegmentedControl'
 import { Tooltip } from '../components/ui/Tooltip'
 import type { ResolvedStory } from '../hooks/useStories'
 import type { Viewport } from '../hooks/useSettings'
-import type { Theme } from '../hooks/useTheme'
 import styles from './TopBar.module.css'
 
 interface TopBarProps {
   selectedStory: ResolvedStory | undefined
-  viewport: Viewport
+  viewport: Viewport | undefined
   onViewportChange: (v: Viewport) => void
-  theme: Theme
-  resolvedTheme: 'light' | 'dark'
-  onThemeToggle: () => void
   onSettingsOpen: () => void
   onFullscreen: () => void
 }
@@ -27,9 +23,6 @@ export function TopBar({
   selectedStory,
   viewport,
   onViewportChange,
-  theme,
-  resolvedTheme,
-  onThemeToggle,
   onSettingsOpen,
   onFullscreen,
 }: TopBarProps) {
@@ -62,12 +55,6 @@ export function TopBar({
         />
 
         <div className={styles.separator} />
-
-        <Tooltip content={resolvedTheme === 'dark' ? 'Light mode' : 'Dark mode'}>
-          <button className={styles.iconBtn} onClick={onThemeToggle} aria-label="Toggle theme">
-            {resolvedTheme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
-          </button>
-        </Tooltip>
 
         <Tooltip content="Fullscreen (F)">
           <button className={styles.iconBtn} onClick={onFullscreen} aria-label="Fullscreen">

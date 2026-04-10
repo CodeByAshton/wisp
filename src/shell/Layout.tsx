@@ -26,7 +26,7 @@ const TAB_SEGMENTS = [
 export function Layout() {
   const { groups, allStories, totalFiles, totalVariants, getFirstStory, getAdjacentStory } = useStories()
   const { settings, setSettings } = useSettings()
-  const { theme, resolvedTheme, setTheme, toggleTheme } = useTheme()
+  const { theme, setTheme } = useTheme()
   const watchInfo = useDirectoryWatch(totalVariants)
 
   const [selectedStory, setSelectedStory] = useState<ResolvedStory | undefined>(undefined)
@@ -36,6 +36,10 @@ export function Layout() {
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [fullscreen, setFullscreen] = useState(false)
   const [sidebarWidth, setSidebarWidth] = useState(settings.sidebarWidth)
+  const [canvasEl, setCanvasEl] = useState<HTMLElement | null>(null)
+  const [picking, setPicking] = useState(false)
+  const [hasCustomSize, setHasCustomSize] = useState(false)
+  const [sizeResetKey, setSizeResetKey] = useState(0)
 
   // Select first story on load
   useEffect(() => {
@@ -87,9 +91,6 @@ export function Layout() {
             // Trigger copy from controls panel
           }
           break
-        case 'd': case 'D':
-          if (!e.metaKey) { e.preventDefault(); toggleTheme() }
-          break
         case 'ArrowLeft':
           if (!e.metaKey) {
             e.preventDefault()
@@ -113,17 +114,14 @@ export function Layout() {
 
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
-  }, [selectedStory, resetArgs, toggleTheme, getAdjacentStory])
+  }, [selectedStory, resetArgs, getAdjacentStory])
 
   return (
     <div className={styles.root}>
       <TopBar
         selectedStory={selectedStory}
-        viewport={viewport}
-        onViewportChange={setViewport}
-        theme={theme}
-        resolvedTheme={resolvedTheme}
-        onThemeToggle={toggleTheme}
+        viewport={hasCustomSize ? undefined : viewport}
+        onViewportChange={v => { setViewport(v); setHasCustomSize(false); setSizeResetKey(k => k + 1) }}
         onSettingsOpen={() => setSettingsOpen(true)}
         onFullscreen={() => setFullscreen(true)}
       />
@@ -162,15 +160,24 @@ export function Layout() {
                   story={selectedStory}
                   args={args}
                   background={settings.canvasBackground}
+                  cardBackground={settings.cardBackground}
                   viewport={viewport}
                   isFullscreen={fullscreen}
                   onFullscreenChange={setFullscreen}
+                  onCanvasEl={setCanvasEl}
+                  picking={picking}
+                  onElementPick={el => { setCanvasEl(el); setPicking(false) }}
+                  onCustomSizeChange={setHasCustomSize}
+                  sizeResetKey={sizeResetKey}
                 />
                 <ControlsPanel
                   story={selectedStory}
                   args={args}
                   onArgsChange={setArgs}
                   onReset={resetArgs}
+                  canvasEl={canvasEl}
+                  picking={picking}
+                  onPickingChange={setPicking}
                 />
               </>
             )}

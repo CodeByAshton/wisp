@@ -59,6 +59,19 @@
 .kbdHint {
   flex-shrink: 0;
   opacity: 0.5;
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+}
+
+.kbdMeta {
+  font-size: 13px;
+  line-height: 1;
+}
+
+.kbdKey {
+  font-size: var(--text-xs);
+  line-height: 1;
 }
 
 .separator {

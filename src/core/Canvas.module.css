@@ -9,27 +9,119 @@
   position: relative;
 }
 
-.bgWhite  { background: var(--color-bg-primary); }
 .bgSubtle { background: var(--color-bg-secondary); }
-.bgDark   { background: #1C1C1E; }
+.bgDark   { background: #0d0d0d; }
 
-/* ── Viewport frame ─────────────────────────────────────────────────── */
-.viewportFrame {
+/* ── Resize container (replaces viewportFrame) ──────────────────────── */
+.resizeContainer {
+  position: relative;
   max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: width 300ms var(--ease-spring);
+}
+
+.resizeContainer.dragging {
+  transition: none;
+  user-select: none;
+}
+
+/* ── Resize handles ─────────────────────────────────────────────────── */
+.resizeHandle {
+  position: absolute;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: width 300ms var(--ease-spring);
+  z-index: 20;
+  opacity: 0;
+  transition: opacity var(--duration-normal) var(--ease-out);
+}
+
+.resizeContainer:hover .resizeHandle,
+.resizeContainer.dragging .resizeHandle {
+  opacity: 1;
+}
+
+/* Left / right handles */
+.resizeHandleLeft,
+.resizeHandleRight {
+  top: 0;
+  bottom: 0;
+  width: 16px;
+  cursor: ew-resize;
+}
+.resizeHandleLeft  { left: -8px; }
+.resizeHandleRight { right: -8px; }
+
+/* Bottom handle */
+.resizeHandleBottom {
+  bottom: -8px;
+  left: 0;
+  right: 0;
+  height: 16px;
+  cursor: s-resize;
+}
+
+/* Vertical bar (left/right handles) */
+.resizeBar {
+  display: block;
+  width: 3px;
+  height: 32px;
+  background: var(--color-separator-opaque);
+  border-radius: 2px;
+  transition: background var(--duration-fast), height var(--duration-fast), box-shadow var(--duration-fast);
+}
+
+.resizeHandle:hover .resizeBar,
+.resizeContainer.dragging .resizeBar {
+  background: var(--color-accent);
+  height: 48px;
+  box-shadow: 0 0 6px rgba(200, 134, 10, 0.4);
+}
+
+/* Horizontal bar (bottom handle) */
+.resizeBarH {
+  display: block;
+  height: 3px;
+  width: 32px;
+  background: var(--color-separator-opaque);
+  border-radius: 2px;
+  transition: background var(--duration-fast), width var(--duration-fast), box-shadow var(--duration-fast);
+}
+
+.resizeHandleBottom:hover .resizeBarH,
+.resizeContainer.dragging .resizeBarH {
+  background: var(--color-accent);
+  width: 48px;
+  box-shadow: 0 0 6px rgba(200, 134, 10, 0.4);
+}
+
+/* ── Width badge ────────────────────────────────────────────────────── */
+.widthBadge {
+  position: absolute;
+  bottom: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-bg-tooltip);
+  color: var(--color-label-secondary);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  pointer-events: none;
+  border: 1px solid var(--color-separator-opaque);
+  z-index: 30;
+  animation: fadeIn 120ms var(--ease-out);
 }
 
 /* Portal root — story overlays (Modal, Drawer…) render here via createPortal.
    Sits inside .canvasWrapper which has position:relative.
    THE KEY: transform:translateZ(0) creates a new CSS containing block, so any
    child with position:fixed is positioned relative to THIS div rather than the
-   browser viewport. Without this, position:fixed covers the entire screen.
-   pointer-events:none lets clicks pass through to the component card below;
-   children rendered into this div (e.g. the modal overlay) override this with
-   their own default pointer-events:auto and still receive all events. */
+   browser viewport.
+   The root itself is pointer-events:none (transparent when empty), but its
+   direct children (overlays) get pointer-events:auto so clicks register. */
 .portalRoot {
   position: absolute;
   inset: 0;
@@ -40,16 +132,24 @@
   overflow: hidden;
 }
 
+.portalRoot > * {
+  pointer-events: auto;
+}
+
 /* ── Component card ─────────────────────────────────────────────────── */
 .componentCard {
   background: var(--color-surface-raised);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255, 255, 255, 0.04);
   padding: 40px;
   opacity: 0;
-  transition: opacity 180ms var(--ease-out);
+  transition: opacity 200ms var(--ease-out);
   width: 100%;
   min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 180px;
 }
 
 .componentCard.visible {
@@ -136,6 +236,24 @@
 
 .exitFullscreen:hover {
   background: rgba(0, 0, 0, 0.8);
+}
+
+/* ── Element picker ─────────────────────────────────────────────────── */
+.pickerOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  cursor: crosshair;
+}
+
+.pickerHighlight {
+  position: absolute;
+  pointer-events: none;
+  z-index: 11;
+  outline: 2px solid var(--color-accent);
+  background: rgba(200, 134, 10, 0.06);
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(200, 134, 10, 0.15);
 }
 
 @keyframes fadeIn {

@@ -144,6 +144,10 @@ export function Sidebar({
         .filter(g => g.components.length > 0)
     : groups
 
+  // When searching, force-expand everything that has results
+  const isGroupExpanded = (id: string) => query ? true : expandedGroups.has(id)
+  const isCompExpanded  = (id: string) => query ? true : expandedComponents.has(id)
+
   const shortDir = resolvedDir
     ? resolvedDir.replace(/\\/g, '/').split('/').slice(-3).join('/')
     : ''
@@ -168,7 +172,10 @@ export function Sidebar({
             <X size={12} />
           </button>
         )}
-        <kbd className={styles.kbdHint}>⌘K</kbd>
+        <kbd className={styles.kbdHint}>
+          <span className={styles.kbdMeta}>⌘</span>
+          <span className={styles.kbdKey}>K</span>
+        </kbd>
       </div>
 
       <div className={styles.separator} />
@@ -186,17 +193,17 @@ export function Sidebar({
             <button
               className={styles.groupHeader}
               onClick={() => toggleGroup(group.id)}
-              aria-expanded={expandedGroups.has(group.id)}
+              aria-expanded={isGroupExpanded(group.id)}
             >
               <ChevronRight
                 size={12}
-                className={`${styles.chevron} ${expandedGroups.has(group.id) ? styles.expanded : ''}`}
+                className={`${styles.chevron} ${isGroupExpanded(group.id) ? styles.expanded : ''}`}
               />
               <span className={styles.groupTitle}>{group.title}</span>
             </button>
 
             <div
-              className={`${styles.groupContent} ${expandedGroups.has(group.id) ? styles.open : ''}`}
+              className={`${styles.groupContent} ${isGroupExpanded(group.id) ? styles.open : ''}`}
             >
               {group.components.map((comp, ci) => (
                 <div key={comp.id} className={styles.component}>
@@ -208,13 +215,13 @@ export function Sidebar({
                       toggleComponent(comp.id)
                       if (comp.stories.length > 0) onSelectStory(comp.stories[0])
                     }}
-                    aria-expanded={expandedComponents.has(comp.id)}
+                    aria-expanded={isCompExpanded(comp.id)}
                     style={{ animationDelay: `${(gi * 3 + ci) * 30}ms` }}
                   >
                     <ChevronRight
                       size={11}
                       className={`${styles.compChevron} ${
-                        expandedComponents.has(comp.id) ? styles.expanded : ''
+                        isCompExpanded(comp.id) ? styles.expanded : ''
                       }`}
                     />
                     <span className={styles.componentName}>{comp.name}</span>
@@ -223,7 +230,7 @@ export function Sidebar({
 
                   <div
                     className={`${styles.storiesList} ${
-                      expandedComponents.has(comp.id) ? styles.open : ''
+                      isCompExpanded(comp.id) ? styles.open : ''
                     }`}
                   >
                     {comp.stories.map(story => (

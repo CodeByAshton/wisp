@@ -23,7 +23,7 @@
   height: 8px;
   border-radius: 50%;
   background: var(--color-accent);
-  box-shadow: 0 0 6px var(--color-accent), 0 0 12px rgba(0, 122, 255, 0.4);
+  box-shadow: 0 0 6px var(--color-accent), var(--glow-active);
   flex-shrink: 0;
 }
 

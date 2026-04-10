@@ -1,0 +1,233 @@
+.panelScroll {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.empty {
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--color-label-tertiary);
+  font-size: var(--text-sm);
+}
+
+/* ── Section ─────────────────────────────────────────────────────────── */
+
+.section {
+  border-bottom: 1px solid var(--color-separator);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 7px 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background var(--duration-fast);
+}
+
+.sectionHeader:hover {
+  background: var(--color-fill-tertiary);
+}
+
+.sectionChevron {
+  font-size: 13px;
+  color: var(--color-label-quaternary);
+  transition: transform var(--duration-normal) var(--ease-out);
+  display: inline-block;
+  line-height: 1;
+  width: 12px;
+  text-align: center;
+}
+
+.sectionChevron[data-open='true'] {
+  transform: rotate(90deg);
+}
+
+.sectionTitle {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--color-label-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.sectionBody {
+  padding: 6px 14px 12px;
+}
+
+/* ── Prop table ──────────────────────────────────────────────────────── */
+
+.propTable {
+  display: flex;
+  flex-direction: column;
+}
+
+.propRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 24px;
+  padding: 2px 0;
+  border-bottom: 1px solid var(--color-separator);
+  gap: 8px;
+}
+
+.propRow:last-child {
+  border-bottom: none;
+}
+
+.propLabel {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-label-tertiary);
+  flex-shrink: 0;
+}
+
+.propValue {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-label-secondary);
+  background: var(--color-fill-tertiary);
+  padding: 1px 5px;
+  border-radius: var(--radius-xs);
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Color row ───────────────────────────────────────────────────────── */
+
+.colorValue {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.colorSwatch {
+  width: 13px;
+  height: 13px;
+  border-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+}
+
+/* ── Box model ───────────────────────────────────────────────────────── */
+
+.boxModel {
+  padding: 2px 0 6px;
+}
+
+/* Each layer is a column-flex: [top-edge] [row] [bottom-edge] */
+.bmLayer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* Inner row: [side-edge] [inner-layer] [side-edge] */
+.bmRow {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+}
+
+/* Inner layer fills remaining space */
+.bmInner {
+  flex: 1;
+  align-self: stretch;
+  min-width: 0;
+}
+
+/* Top / bottom value labels */
+.bmEdge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-label-secondary);
+  padding: 3px 0;
+  text-align: center;
+  width: 100%;
+  line-height: 1;
+}
+
+/* Left / right value labels */
+.bmSide {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-label-secondary);
+  padding: 0 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  min-width: 22px;
+  line-height: 1;
+}
+
+/* Layer colors */
+.bmMargin {
+  outline: 1px dashed rgba(200, 134, 10, 0.28);
+  background: rgba(200, 134, 10, 0.04);
+}
+
+.bmBorder {
+  outline: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.bmPadding {
+  outline: 1px dashed rgba(100, 190, 120, 0.28);
+  background: rgba(100, 190, 120, 0.04);
+}
+
+/* Content box */
+.bmContent {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-label-tertiary);
+  background: rgba(100, 140, 220, 0.08);
+  outline: 1px solid rgba(100, 140, 220, 0.18);
+  padding: 8px 4px;
+  text-align: center;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+/* ── Legend ──────────────────────────────────────────────────────────── */
+
+.bmLegend {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.bmLegendItem {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-label-quaternary);
+}
+
+.bmLegendItem::before {
+  content: '';
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.bmLegendMargin::before  { background: rgba(200, 134, 10, 0.2);  outline: 1px dashed rgba(200, 134, 10, 0.4);  }
+.bmLegendBorder::before  { background: rgba(255, 255, 255, 0.04); outline: 1px solid  rgba(255, 255, 255, 0.12); }
+.bmLegendPadding::before { background: rgba(100, 190, 120, 0.18); outline: 1px dashed rgba(100, 190, 120, 0.4);  }
+.bmLegendContent::before { background: rgba(100, 140, 220, 0.14); outline: 1px solid  rgba(100, 140, 220, 0.3);  }

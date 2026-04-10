@@ -24,8 +24,8 @@ body {
 
 /* ── Scrollbars ─────────────────────────────────────────────────────── */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -47,8 +47,8 @@ body {
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
+  outline: none;
+  box-shadow: var(--glow-focus-tight);
   border-radius: var(--radius-sm);
 }
 
@@ -75,24 +75,24 @@ input, textarea, select {
   font-family: var(--font-text);
   font-size: var(--text-base);
   color: var(--color-label);
-  background: var(--color-fill-tertiary);
-  border: 1.5px solid transparent;
+  background: var(--color-bg-input);
+  border: 1.5px solid var(--color-separator-opaque);
   border-radius: var(--radius-sm);
   height: 32px;
   padding: 0 10px;
   transition: border-color var(--duration-fast) var(--ease-out),
-              background var(--duration-fast) var(--ease-out);
+              box-shadow var(--duration-fast) var(--ease-out);
   width: 100%;
 }
 
 input:focus, textarea:focus, select:focus {
-  border-color: var(--color-accent);
-  background: var(--color-bg-primary);
+  border-color: var(--color-border-focus);
+  box-shadow: var(--shadow-inset-focus);
   outline: none;
 }
 
 input::placeholder, textarea::placeholder {
-  color: var(--color-label-tertiary);
+  color: var(--color-label-quaternary);
 }
 
 textarea {
@@ -146,10 +146,10 @@ button:disabled {
 .canvas-dotgrid {
   background-image: radial-gradient(
     circle,
-    var(--color-label-quaternary) 1px,
+    rgba(255, 255, 255, 0.1) 1px,
     transparent 1px
   );
-  background-size: 20px 20px;
+  background-size: 24px 24px;
 }
 
 /* ── Checkered background ───────────────────────────────────────────── */
@@ -192,7 +192,7 @@ kbd {
   background: var(--color-fill-secondary);
   border-radius: var(--radius-xs);
   color: var(--color-label-secondary);
-  border: 1px solid var(--color-separator);
+  border: 1px solid var(--color-separator-opaque);
 }
 
 /* ── Animations ─────────────────────────────────────────────────────── */

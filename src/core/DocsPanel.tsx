@@ -1,3 +1,5 @@
+import { useState } from 'react'
+import { Edit3, Eye } from 'lucide-react'
 import type { ResolvedStory } from '../types/story'
 import styles from './DocsPanel.module.css'
 
@@ -56,6 +58,9 @@ function renderMarkdown(md: string): string {
 }
 
 export function DocsPanel({ story }: DocsPanelProps) {
+  const [editing, setEditing] = useState(false)
+  const [draftDocs, setDraftDocs] = useState<string | null>(null)
+
   if (!story) {
     return (
       <div className={styles.empty}>
@@ -64,22 +69,43 @@ export function DocsPanel({ story }: DocsPanelProps) {
     )
   }
 
-  const docs = story.meta.parameters?.docs
+  const baseDocs = story.meta.parameters?.docs
+  const activeDocs = draftDocs ?? (baseDocs ? String(baseDocs) : null)
   const componentName = story.meta.component?.displayName ?? story.meta.component?.name ?? story.componentName
 
   return (
     <div className={styles.docs}>
       <div className={styles.header}>
-        <h1 className={styles.componentTitle}>{componentName}</h1>
-        {story.meta.title && (
-          <p className={styles.path}>{story.meta.title}</p>
-        )}
+        <div className={styles.headerLeft}>
+          <h1 className={styles.componentTitle}>{componentName}</h1>
+          {story.meta.title && (
+            <p className={styles.path}>{story.meta.title}</p>
+          )}
+        </div>
+        <button
+          className={`${styles.editToggle} ${editing ? styles.editToggleActive : ''}`}
+          onClick={() => setEditing(v => !v)}
+          title={editing ? 'Preview' : 'Edit'}
+        >
+          {editing ? <Eye size={13} /> : <Edit3 size={13} />}
+          {editing ? 'Preview' : 'Edit'}
+        </button>
       </div>
 
-      {docs ? (
+      {editing ? (
+        <div className={styles.editorWrap}>
+          <textarea
+            className={styles.editor}
+            value={activeDocs ?? `# ${componentName}\n\nDescribe your component here using **Markdown**.\n`}
+            onChange={e => setDraftDocs(e.target.value)}
+            spellCheck={false}
+            placeholder="Write documentation in Markdown…"
+          />
+        </div>
+      ) : activeDocs ? (
         <div
           className={styles.content}
-          dangerouslySetInnerHTML={{ __html: renderMarkdown(String(docs)) }}
+          dangerouslySetInnerHTML={{ __html: renderMarkdown(activeDocs) }}
         />
       ) : (
         <div className={styles.noDocsMessage}>
@@ -100,6 +126,16 @@ Describe your component here using **Markdown**.
     \`
   }
 }`}</pre>
+          <button
+            className={styles.startEditBtn}
+            onClick={() => {
+              setDraftDocs(`# ${componentName}\n\nDescribe your component here using **Markdown**.\n`)
+              setEditing(true)
+            }}
+          >
+            <Edit3 size={13} />
+            Start writing
+          </button>
         </div>
       )}
     </div>

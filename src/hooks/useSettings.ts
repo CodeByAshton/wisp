@@ -1,12 +1,13 @@
 import { useState, useCallback, useEffect } from 'react'
 import type { Theme } from './useTheme'
 
-export type CanvasBackground = 'white' | 'subtle' | 'checkered' | 'dark'
+export type CanvasBackground = 'subtle' | 'checkered' | 'dark'
 export type Viewport = 'mobile' | 'tablet' | 'desktop'
 
 export interface WispSettings {
   theme: Theme
   canvasBackground: CanvasBackground
+  cardBackground: string   // hex color or 'transparent'
   sidebarWidth: number
   storiesDir: string
   storiesGlob: string
@@ -17,7 +18,8 @@ export interface WispSettings {
 
 const DEFAULTS: WispSettings = {
   theme: 'system',
-  canvasBackground: 'white',
+  canvasBackground: 'subtle',
+  cardBackground: '#222222',
   sidebarWidth: 240,
   storiesDir: './src/stories',
   storiesGlob: '**/*.stories.tsx',

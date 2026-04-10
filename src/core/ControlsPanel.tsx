@@ -1,6 +1,7 @@
-import { RotateCcw, Copy, Check } from 'lucide-react'
+import { RotateCcw, Copy, Check, Crosshair } from 'lucide-react'
 import { useState } from 'react'
 import { Toggle } from '../components/ui/Toggle'
+import { InspectPanel } from './InspectPanel'
 import type { ResolvedStory, ArgType } from '../types/story'
 import styles from './ControlsPanel.module.css'
 
@@ -9,6 +10,9 @@ interface ControlsPanelProps {
   args: Record<string, unknown>
   onArgsChange: (args: Record<string, unknown>) => void
   onReset: () => void
+  canvasEl: HTMLElement | null
+  picking: boolean
+  onPickingChange: (v: boolean) => void
 }
 
 function getControlType(argType: ArgType): string {
@@ -147,23 +151,17 @@ function Control({ name, argType, value, onChange }: ControlProps) {
   }
 }
 
-export function ControlsPanel({ story, args, onArgsChange, onReset }: ControlsPanelProps) {
+export function ControlsPanel({ story, args, onArgsChange, onReset, canvasEl, picking, onPickingChange }: ControlsPanelProps) {
   const [copied, setCopied] = useState(false)
+  const [activeTab, setActiveTab] = useState<'controls' | 'inspect'>('controls')
 
-  if (!story) {
-    return (
-      <aside className={`${styles.panel} panel-frosted`}>
-        <div className={styles.emptyState}>
-          <p>No story selected</p>
-        </div>
-      </aside>
-    )
-  }
-
-  const argTypes = { ...story.meta.argTypes, ...story.story.argTypes } as Record<string, ArgType>
+  const argTypes = story
+    ? ({ ...story.meta.argTypes, ...story.story.argTypes } as Record<string, ArgType>)
+    : {}
   const hasControls = Object.keys(argTypes).length > 0
 
   const copyProps = async () => {
+    if (!story) return
     const jsx = argsToJSX(args)
     await navigator.clipboard.writeText(jsx)
     setCopied(true)
@@ -172,60 +170,103 @@ export function ControlsPanel({ story, args, onArgsChange, onReset }: ControlsPa
 
   return (
     <aside className={`${styles.panel} panel-frosted`}>
+      {/* Header with Controls / Inspect tabs */}
       <div className={styles.header}>
-        <span className={styles.title}>Controls</span>
-        <div className={styles.headerActions}>
+        <div className={styles.tabs}>
           <button
-            className={styles.actionBtn}
-            onClick={copyProps}
-            title="Copy props (C)"
+            className={`${styles.tab} ${activeTab === 'controls' ? styles.tabActive : ''}`}
+            onClick={() => setActiveTab('controls')}
           >
-            {copied ? <Check size={12} /> : <Copy size={12} />}
-            {copied ? 'Copied' : 'Copy props'}
+            Controls
           </button>
           <button
-            className={styles.actionBtn}
-            onClick={onReset}
-            title="Reset (R)"
+            className={`${styles.tab} ${activeTab === 'inspect' ? styles.tabActive : ''}`}
+            onClick={() => setActiveTab('inspect')}
           >
-            <RotateCcw size={12} />
-            Reset
+            Inspect
           </button>
         </div>
+
+        {activeTab === 'controls' && story && (
+          <div className={styles.headerActions}>
+            <button
+              className={styles.actionBtn}
+              onClick={copyProps}
+              title="Copy props (C)"
+            >
+              {copied ? <Check size={12} /> : <Copy size={12} />}
+              {copied ? 'Copied' : 'Copy'}
+            </button>
+            <button
+              className={styles.actionBtn}
+              onClick={onReset}
+              title="Reset (R)"
+            >
+              <RotateCcw size={12} />
+              Reset
+            </button>
+          </div>
+        )}
+
+        {activeTab === 'inspect' && (
+          <div className={styles.headerActions}>
+            <button
+              className={`${styles.actionBtn} ${picking ? styles.actionBtnActive : ''}`}
+              onClick={() => onPickingChange(!picking)}
+              title={picking ? 'Exit element picker' : 'Pick an element to inspect'}
+            >
+              <Crosshair size={12} />
+              {picking ? 'Picking…' : 'Pick'}
+            </button>
+          </div>
+        )}
       </div>
 
       <div className={styles.separator} />
 
-      <div className={styles.controls}>
-        {!hasControls && (
-          <div className={styles.emptyState}>
-            <p>No controls defined</p>
-            <p className={styles.emptyHint}>Add argTypes to your story to see controls here</p>
-          </div>
-        )}
+      {/* Tab content */}
+      {activeTab === 'controls' ? (
+        <div className={styles.controls}>
+          {!story && (
+            <div className={styles.emptyState}>
+              <p>No story selected</p>
+            </div>
+          )}
 
-        {Object.entries(argTypes).map(([name, argType]) => (
-          <div key={name} className={styles.controlRow}>
-            <div className={styles.controlLabel}>
-              <span className={styles.controlName}>{name}</span>
-              {argType.type && (
-                <span className={styles.controlType}>{typeof argType.type === 'string' ? argType.type : argType.type.name}</span>
+          {story && !hasControls && (
+            <div className={styles.emptyState}>
+              <p>No controls defined</p>
+              <p className={styles.emptyHint}>Add argTypes to your story to see controls here</p>
+            </div>
+          )}
+
+          {story && hasControls && Object.entries(argTypes).map(([name, argType]) => (
+            <div key={name} className={styles.controlRow}>
+              <div className={styles.controlLabel}>
+                <span className={styles.controlName}>{name}</span>
+                {argType.type && (
+                  <span className={styles.controlType}>
+                    {typeof argType.type === 'string' ? argType.type : argType.type.name}
+                  </span>
+                )}
+              </div>
+              <div className={styles.controlInput}>
+                <Control
+                  name={name}
+                  argType={argType}
+                  value={args[name]}
+                  onChange={v => onArgsChange({ ...args, [name]: v })}
+                />
+              </div>
+              {argType.description && (
+                <p className={styles.controlDesc}>{argType.description}</p>
               )}
             </div>
-            <div className={styles.controlInput}>
-              <Control
-                name={name}
-                argType={argType}
-                value={args[name]}
-                onChange={v => onArgsChange({ ...args, [name]: v })}
-              />
-            </div>
-            {argType.description && (
-              <p className={styles.controlDesc}>{argType.description}</p>
-            )}
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <InspectPanel el={canvasEl} />
+      )}
     </aside>
   )
 }
